@@ -6,8 +6,11 @@ import {
   generateRouter,
   generateService,
   updateAppFile,
+  generateMiddleWare,
+  updateController,
+  updateRouter,
 } from './process';
-import { testFileStruct, testAppStart, testAPI } from './test';
+import { testFileStruct, testAppStart, testAPI, testMiddleWare } from './test';
 
 const helper = async () => {
   console.log(
@@ -59,7 +62,7 @@ const helper = async () => {
     ├── services/                        # 비즈니스 로직 처리
     │   └── user.service.ts
     ├── middlewares/                     # 미들웨어 함수들
-    │   └── auth.middleware.ts
+    │   └── user.middleware.ts
     ├── app.ts                           # 서버 진입점
     ├── package.json(기존 파일)
     ├── tsconfig.json(기존 파일)
@@ -133,6 +136,35 @@ const helper = async () => {
   console.log(
     '\n\n[Chapter 4. Middleware] 요청이 들어오고 나서 최종 응답을 보내기 전에 어떤 작업을 하는 함수'
   );
+  console.log(
+    'db/users.json 파일을 확인하면 user의 데이터 중 name은 필수 데이터입니다.\n미들웨어를 사용하여 post API요청에서 name 필드를 필수 데이터로 지정하겠습니다.'
+  );
+
+  console.log('\nmiddlewares/user.middleware.ts를 만듭니다.');
+  await askToContinue();
+  await generateMiddleWare();
+
+  console.log(
+    '\nmiddleware를 구현했으니 기존의 controller에서 확인하면 name 조건문을 삭제합니다.'
+  );
+  console.log('controllers/user.controller.ts를 수정합니다.');
+  await askToContinue();
+  await updateController();
+
+  console.log('\n기존의 router에서 middleware를 적용합니다.');
+  console.log('routes/user.route.ts를 수정합니다.');
+  await askToContinue();
+  await updateRouter();
+
+  console.log(
+    '\n고의적인 name필드 제외요청(post)을 통해 middleware를 테스트합니다.'
+  );
+  await askToContinue();
+  await testMiddleWare();
+
+  await delay(1000);
+
+  console.log('\n\n🎉 Express Tutorial이 완료되었습니다.');
 };
 
 helper()

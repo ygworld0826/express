@@ -10,7 +10,7 @@ export const testFileStruct = async () => {
     'routes/user.route.ts',
     'controllers/user.controller.ts',
     'services/user.service.ts',
-    'middlewares/auth.middleware.ts',
+    'middlewares/user.middleware.ts',
     'app.ts',
     'package.json',
     'tsconfig.json',
@@ -61,5 +61,19 @@ export const testAPI = async () => {
     }
   } catch (error: any) {
     console.log(error.message);
+  }
+};
+
+export const testMiddleWare = async () => {
+  try {
+    await axios.post('http://localhost:3000/users', {});
+  } catch (error: any) {
+    if (error.response.data.message === '이름은 필수입니다.') {
+      console.log('✅ 테스트 통과');
+    } else {
+      console.log(
+        '❌ 서버 실행([post] /users)이 실패하였습니다.\n튜토리얼을 마칩니다.'
+      );
+    }
   }
 };

@@ -104,7 +104,6 @@ export const generateRouter = async () => {
     deleteUser(req, res);
   });
   export default router;
-
   `;
 
   fs.writeFileSync(filePath, content, 'utf-8');
@@ -188,6 +187,89 @@ app.listen(PORT, () => {
   console.log(\`🚀 서버가 실행 중입니다: http://localhost:\${PORT}\`);
 });
 `;
+
+  fs.writeFileSync(filePath, content, 'utf-8');
+  console.log(`✅ ${filePath} 파일이 생성되었습니다. 코드를 확인하여 주세요.`);
+};
+
+export const generateMiddleWare = async () => {
+  const filePath = path.join(__dirname, '../middlewares/user.middleware.ts');
+
+  const content = `import { Request, Response, NextFunction } from 'express';
+  
+  export function validateUserBody(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void {
+    const { name } = req.body;
+    if (!name) {
+      res.status(400).json({ message: '이름은 필수입니다.' });
+      return;
+    }
+    next();
+  }
+`;
+
+  fs.writeFileSync(filePath, content, 'utf-8');
+  console.log(`✅ ${filePath} 파일이 생성되었습니다. 코드를 확인하여 주세요.`);
+};
+
+export const updateController = async () => {
+  const filePath = path.join(__dirname, '../controllers/user.controller.ts');
+
+  const content = `import { Request, Response } from 'express';
+  import * as userService from '../services/user.service';
+  
+  export const getUsers = (req: Request, res: Response) => {
+    const users = userService.getAllUsers();
+    res.json(users);
+  };
+  
+  export const addUser = (req: Request, res: Response) => {
+    const { name } = req.body;
+  
+    const user = userService.createUser(name);
+    res.status(201).json(user);
+  };
+  
+  export const deleteUser = (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const deleted = userService.deleteUserById(id);
+  
+    if (!deleted) {
+      return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
+    }
+  
+    res.json({ message: \`id \${id}번 사용자가 삭제되었습니다.\` });
+  };
+  `;
+
+  fs.writeFileSync(filePath, content, 'utf-8');
+  console.log(`✅ ${filePath} 파일이 생성되었습니다. 코드를 확인하여 주세요.`);
+};
+
+export const updateRouter = async () => {
+  const filePath = path.join(__dirname, '../routes/user.route.ts');
+
+  const content = `import { Router } from 'express';
+  import { getUsers, addUser, deleteUser } from '../controllers/user.controller';
+  import { validateUserBody } from '../middlewares/user.middleware';
+  
+  const router = Router();
+  
+  // 사용자 목록 가져오기
+  router.get('/', getUsers);
+  
+  // 사용자 추가
+  router.post('/', validateUserBody, addUser);
+  
+  // 사용자 삭제
+  router.delete('/:id', (req, res, next) => {
+    deleteUser(req, res);
+  });
+  export default router;
+  `;
 
   fs.writeFileSync(filePath, content, 'utf-8');
   console.log(`✅ ${filePath} 파일이 생성되었습니다. 코드를 확인하여 주세요.`);
