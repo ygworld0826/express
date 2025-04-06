@@ -1,9 +1,9 @@
 {
   "name": "express",
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
-    "tutorial": "node helper/helper.js",
+    "tutorial": "ts-node helper/helper.ts",
+    "start": "nodemon app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,9 +18,13 @@
   "homepage": "https://github.com/Insu-Lee/express#readme",
   "description": "",
   "dependencies": {
+    "axios": "^1.8.4",
     "express": "^5.1.0"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0"
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.14.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2"
   }
 }
