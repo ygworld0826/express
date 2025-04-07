@@ -137,7 +137,7 @@ const helper = async () => {
     '\n\n[Chapter 4. Middleware] 요청이 들어오고 나서 최종 응답을 보내기 전에 어떤 작업을 하는 함수'
   );
   console.log(
-    'db/users.json 파일을 확인하면 user의 데이터 중 name은 필수 데이터입니다.\n미들웨어를 사용하여 post API요청에서 name 필드를 필수 데이터로 지정하겠습니다.'
+    '\ndb/users.json 파일을 확인하면 user의 데이터 중 name은 필수 데이터입니다.\n미들웨어를 사용하여 post API요청에서 name 필드를 필수 데이터로 지정하겠습니다.'
   );
 
   console.log('\nmiddlewares/user.middleware.ts를 만듭니다.');
@@ -164,7 +164,8 @@ const helper = async () => {
 
   await delay(1000);
 
-  console.log('\n\n🎉 Express Tutorial이 완료되었습니다.');
+  console.log('\n이로써 간단한 User API가 구성된 서버 구현이 완료되었습니다.');
+  console.log('\n\n🎉 Express Tutorial을 마치겠습니다.');
 };
 
 helper()
